@@ -1,0 +1,378 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Roboto Mono", monospace;
+  }
+  body {
+    background-color: #f4c531;
+  }
+.game-container {
+    font-family: "Segoe UI", sans-serif;
+    text-align: center;
+    padding: 20px;
+    max-width: 500px;
+    margin: auto;
+    border: 2px solid #333;
+    border-radius: 10px;
+    background-color: #3991F5;
+    width: 600px;
+  }
+  
+  .title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .hint, .lives {
+    font-size: 1.1rem;
+    margin: 10px 0;
+  }
+  
+  #word {
+    margin: 20px 0;
+    font-size: 2rem;
+    letter-spacing: 10px;
+  }
+  
+  .letters button {
+    margin: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    border: none;
+    background-color:#090e61;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .letters button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .result {
+    margin: 20px 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  #newGame {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color:#090e61;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .hangman-container {
+    text-align: center;
+    font-family: 'Roboto Mono', monospace;
+  }
+  
+  .gallows {
+    position: relative;
+    height: 250px;
+    margin: 30px auto;
+    width: 200px;
+
+  }
+  
+  .pole {
+    width: 10px;
+    height: 200px;
+    background: #333;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  
+  .beam {
+    width: 100px;
+    height: 10px;
+    background: #333;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  
+  .rope {
+    width: 2px;
+    height: 30px;
+    background: #333;
+    position: absolute;
+    left: 98px;
+    top: 10px;
+  }
+  
+  .man .part {
+    display: none;
+    position: absolute;
+    background: #000;
+  }
+  
+  .head {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    left: 85px;
+    top: 40px;
+    background: none;
+    border: 3px solid #d72525;
+  }
+  
+  .body {
+    width: 4px;
+    height: 50px;
+    left: 99px;
+    top: 70px;
+    color: aquamarine;
+  }
+  
+  .left-arm {
+    width: 30px;
+    height: 4px;
+    left: 70px;
+    top: 90px;
+    transform: rotate(-30deg);
+  }
+  
+  .right-arm {
+    width: 30px;
+    height: 4px;
+    left: 100px;
+    top: 90px;
+    transform: rotate(30deg);
+  }
+  
+  .left-leg {
+    width: 30px;
+    height: 4px;
+    left: 70px;
+    top: 120px;
+    transform: rotate(30deg);
+  }
+  
+  .right-leg {
+    width: 30px;
+    height: 4px;
+    left: 100px;
+    top: 120px;
+    transform: rotate(-30deg);
+  }
+  
+  .word {
+    font-size: 24px;
+    margin-top: 20px;
+  }
+  
+  .letters button {
+    margin: 5px;
+    padding: 8px 12px;
+    font-size: 16px;
+  }
+  
+  .message {
+    font-size: 20px;
+    margin-top: 15px;
+    color: green;
+  }
+  /* Responsive design for Hangman game */
+@media screen and (max-width: 1024px) {
+  .game-container {
+    width: 80%;
+    padding: 4em 2em;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .hint, .lives {
+    font-size: 1rem;
+  }
+
+  #word {
+    font-size: 1.5rem;
+    letter-spacing: 6px;
+  }
+
+  .letters button {
+    margin: 4px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+
+  .result {
+    font-size: 1.3rem;
+  }
+
+  #newGame {
+    font-size: 1rem;
+    padding: 8px 15px;
+  }
+
+  .gallows {
+    width: 180px;
+    height: 200px;
+  }
+
+  .head {
+    width: 25px;
+    height: 25px;
+  }
+
+  .body {
+    width: 3px;
+    height: 45px;
+  }
+
+  .left-arm, .right-arm, .left-leg, .right-leg {
+    width: 25px;
+    height: 3px;
+  }
+
+  .word {
+    font-size: 20px;
+  }
+
+  .letters button {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .game-container {
+    width: 90%;
+    padding: 3em 1.5em;
+  }
+
+  .title {
+    font-size: 1.3rem;
+  }
+
+  .hint, .lives {
+    font-size: 1rem;
+  }
+
+  #word {
+    font-size: 1.3rem;
+    letter-spacing: 5px;
+  }
+
+  .letters button {
+    margin: 3px;
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+
+  .result {
+    font-size: 1.2rem;
+  }
+
+  #newGame {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+
+  .gallows {
+    width: 150px;
+    height: 180px;
+  }
+
+  .head {
+    width: 20px;
+    height: 20px;
+  }
+
+  .body {
+    width: 2px;
+    height: 40px;
+  }
+
+  .left-arm, .right-arm, .left-leg, .right-leg {
+    width: 20px;
+    height: 2px;
+  }
+
+  .word {
+    font-size: 18px;
+  }
+
+  .letters button {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .game-container {
+    width: 100%;
+    padding: 2.5em 1em;
+    box-sizing: border-box;
+  }
+
+  .title {
+    font-size: 1.1rem;
+  }
+
+  .hint, .lives {
+    font-size: 0.9rem;
+  }
+
+  #word {
+    font-size: 1.2rem;
+    letter-spacing: 3px;
+  }
+
+  .letters button {
+    margin: 2px;
+    padding: 5px 8px;
+    font-size: 0.8rem;
+  }
+
+  .result {
+    font-size: 1rem;
+  }
+
+  #newGame {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+  }
+
+  .gallows {
+    width: 120px;
+    height: 150px;
+  }
+
+  .head {
+    width: 15px;
+    height: 15px;
+  }
+
+  .body {
+    width: 1px;
+    height: 30px;
+  }
+
+  .left-arm, .right-arm, .left-leg, .right-leg {
+    width: 15px;
+    height: 1px;
+  }
+
+  .word {
+    font-size: 16px;
+  }
+
+  .letters button {
+    padding: 5px 6px;
+    font-size: 10px;
+  }
+}
+
+  
+  

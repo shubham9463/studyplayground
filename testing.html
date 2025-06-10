@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Kanban Board</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+  <style>
+     @import url("https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600&display=swap");
+
+:root {
+  --bg-color: #e2e8f0;
+  --text-color: #404040;
+  --primary-color: #475569;
+  --secondary-color: #cbd5e1;
+  --task-color: #f6f6f6;
+  --cancel-color: #e5e7eb;
+  --confirm-color: #dc2626;
+  --confirm-hover-color: #b91c1c;
+  --task-size: 48px;
+}
+
+* {
+  font-family: Mulish, sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  
+}
+
+h1 {
+  margin: 2rem 0;
+  color: rgb(255, 174, 0);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  outline-color: var(--secondary-color);
+  color: var(--primary-color);
+  transition: 0.3s;
+  opacity: 0.5;
+}
+
+button:is(:active, :hover) {
+  opacity: 1;
+}
+
+.container {
+  width: min(1200px, 90%);
+  margin: 0 auto;
+}
+
+.columns {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .columns {
+    flex-direction: row;
+  }
+}
+
+.column {
+  flex: 1;
+  display: grid;
+  grid-template-rows: var(--task-size) 1fr;
+  gap: 0.5rem;
+}
+
+.column-title {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--secondary-color);
+  color: var(--primary-color);
+}
+
+.column-title h3 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  color: rgb(129, 167, 254);
+}
+
+.column-title h3::after {
+  content: attr(data-tasks);
+  background: lightblue;
+  margin-left: 0.25rem;
+  border-radius: 0.25rem;
+  padding: 0 0.25rem;
+  color: blue;
+}
+
+.column-title button {
+  margin-left: auto;
+  font-size: 2rem;
+  color: rgb(240, 5, 9);
+}
+
+.tasks {
+  min-height: var(--task-size);
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+}
+
+.tasks > * {
+  background: #fff;
+  border-radius: 0.25rem;
+  padding: 0.875rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  min-height: var(--task-size);
+}
+
+.task {
+  cursor: move;
+  transition: 0.3s;
+}
+
+.task.dragging {
+  cursor: default;
+  box-shadow: none;
+  background: var(--secondary-color);
+  opacity: 0.5;
+}
+
+.task.dragging * {
+  visibility: hidden;
+}
+
+.task:not(.dragging):hover {
+  background: var(--task-color);
+}
+
+.task menu {
+  margin-top: 0.875rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.task button {
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1.25rem;
+  color: red;
+}
+
+.task-input {
+  outline: none;
+  overflow-wrap: anywhere;
+  padding-left: 2.5rem;
+  
+}
+
+.task-input::before {
+  content: "\F392";
+  font-family: "bootstrap-icons";
+  position: absolute;
+  left: 0.875rem;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.5;
+}
+
+.task-input:empty::after {
+  content: attr(data-placeholder);
+  opacity: 0.5;
+}
+
+.confirm-modal[open] {
+  opacity: 1;
+  transform: translate(-50%, -50%) translateY(0);
+}
+
+.confirm-modal {
+  opacity: 0;
+  transform: translate(-50%, -50%) translateY(50px);
+  left: 50%;
+  top: 50%;
+  border: none;
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s allow-discrete;
+}
+
+.confirm-modal[open]::backdrop {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.confirm-modal::backdrop {
+  background: rgba(0, 0, 0, 0);
+  transition: all 0.3s allow-discrete;
+}
+
+@starting-style {
+  .confirm-modal[open] {
+    opacity: 0;
+    transform: translate(-50%, -50%) translateY(50px);
+  }
+
+  .confirm-modal[open]::backdrop {
+    background: rgba(0, 0, 0, 0);
+  }
+}
+
+.confirm-modal form {
+  padding: 2rem;
+}
+
+.confirm-modal form > *:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.confirm-modal h3 {
+  font-size: 1.5rem;
+}
+
+.confirm-modal div.preview {
+    font-size: 0.875rem;
+    padding-left: 0.5rem;
+    border-left: 2px solid var(--secondary-color);
+    display: -webkit-box;                /* Required for line-clamp */
+    -webkit-box-orient: vertical;        /* Required for line-clamp */
+                 /* Limit to 2 lines */
+    overflow: hidden;                    /* Hide any overflow */
+    opacity: 0.75;
+    height: 3rem;                        /* Adjust based on content height */
+    line-height: 1.2;                    /* Adjust to control line spacing */
+  }
+  
+  
+
+.confirm-modal menu {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.confirm-modal button {
+  opacity: 1;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+.confirm-modal button#cancel {
+  border-color: var(--cancel-color);
+}
+
+.confirm-modal button#confirm {
+  border-color: var(--confirm-color);
+  background: var(--confirm-color);
+  color: #fff;
+}
+
+.confirm-modal button#confirm:hover {
+  border-color: var(--confirm-hover-color);
+  background: var(--confirm-hover-color);
+} 
+
+#filter-container {
+  margin-bottom: 20px;
+  font-family: Arial, sans-serif;
+}
+
+#column-filter {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+.priority {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+}
+
+.priority.low {
+  background-color: #60a5fa; /* Blue */
+}
+.priority.medium {
+  background-color: #f59e0b; /* Amber */
+}
+.priority.high {
+  background-color: #ef4444; /* Red */
+}
+.file-list {
+  margin-top: 8px;
+  font-size: 0.8rem;
+  padding-left: 1rem;
+}
+.file-list li {
+  list-style-type: disc;
+  color: var(--primary-color);
+}
+.file-list a {
+  text-decoration: underline;
+  color: inherit;
+}
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+:root {
+  --bg: #f4f4f4;
+  --text: #333;
+  --accent: #4f46e5;
+  --nav-bg: #fff;
+  --sidebar-bg: #e0e7ff;
+}
+
+.dark-theme {
+  --bg: #1e1e2f;
+  --text: #f1f1f1;
+  --nav-bg: #2e2e3f;
+  --sidebar-bg: #3e3e5f;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--nav-bg);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.logo {
+  font-size: 1.5rem;
+  color: var(--accent);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+#theme-toggle {
+  padding: 0.5rem;
+  border: none;
+  background: transparent;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#logout-btn {
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Layout */
+.layout {
+  display: flex;
+  flex: 1;
+  height: 100%;
+}
+
+
+
+/* Main Kanban Board */
+.kanban-board {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+
+body.dark .task {
+  background: #475569;
+  color: #ffffff; /* <- Add this line */
+}
+body.dark .task:not(.dragging):hover {
+  background: #64748b;
+  color: #ffffff; /* <- Add this line */
+}
+body.dark-mode .kanban-column .task {
+  background-color: #2c2c2c;
+  color: #ffffff;
+}
+body.dark .kanban-column .task,
+body.dark-mode .kanban-column .task {
+  background-color: #2c2c2c;
+  color: #ffffff;
+}
+body.dark .task-input::after {
+  color: #de0d0d;
+}
+
+</style>
+</head>
+<body>
+  
+  <div class="app-container">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <h1 class="logo">KanbanBoard</h1>
+      <div class="nav-actions">
+        <button id="theme-toggle">🌙</button>
+        <div class="user-info">
+          <span id="user-name">Hi, User</span>
+          <button id="logout-btn">Logout</button>
+        </div>
+      </div>
+    </nav>
+    <div class="layout">
+      <!-- Sidebar -->
+      
+      <main class="kanban-board">
+      
+      
+        <div class="container columns">
+          <!-- Filter Dropdown -->
+      <div id="filter-container">
+          <label for="column-filter">Filter by Column:</label>
+          <select id="column-filter">
+            <option value="all">All Columns</option>
+            <option value="todo">To Do</option>
+            <option value="inprogress">In Progress</option>
+            <option value="done">Done</option>
+          </select>
+        </div>
+        
+          <div class="column">
+            <div class="column-title">
+              <h3 data-tasks="0">To Do</h3>
+              <button data-add><i class="bi bi-plus"></i></button>
+            </div>
+            <div class="tasks"></div>
+          </div>
+          <div class="column">
+            <div class="column-title">
+              <h3 data-tasks="0">In Progress</h3>
+              <button data-add><i class="bi bi-plus"></i></button>
+            </div>
+            <div class="tasks"></div>
+          </div>
+          <div class="column">
+            <div class="column-title">
+              <h3 data-tasks="0">Review</h3>
+              <button data-add><i class="bi bi-plus"></i></button>
+            </div>
+            <div class="tasks"></div>
+          </div>
+          <div class="column">
+            <div class="column-title">
+              <h3 data-tasks="0">Done</h3>
+              <button data-add><i class="bi bi-plus"></i></button>
+            </div>
+            <div class="tasks"></div>
+          </div>
+        </div>
+      
+        <dialog class="confirm-modal">
+          <form method="dialog">
+            <h3>Delete Task?</h3>
+            <p>You are about to delete this task:</p>
+            <div class="preview"></div>
+            <menu>
+              <button type="button" id="cancel">Cancel</button>
+              <button type="submit" id="confirm">Yes, delete it.</button>
+            </menu>
+          </form>
+        </dialog>
+      
+      </main>
+    </div>
+  </div>
+  
+  <script>
+    const modal = document.querySelector(".confirm-modal");
+    const columnsContainer = document.querySelector(".columns");
+    const columns = columnsContainer.querySelectorAll(".column");
+
+    let currentTask = null;
+
+    const handleDragover = (event) => {
+      event.preventDefault();
+      const dragged = document.querySelector(".dragging");
+      const target = event.target.closest(".task, .tasks");
+      if (!target || target === dragged) return;
+
+      if (target.classList.contains("tasks")) {
+        const last = target.lastElementChild;
+        if (!last) {
+          target.appendChild(dragged);
+        } else {
+          const { bottom } = last.getBoundingClientRect();
+          event.clientY > bottom && target.appendChild(dragged);
+        }
+      } else {
+        const { top, height } = target.getBoundingClientRect();
+        event.clientY < top + height / 2 ? target.before(dragged) : target.after(dragged);
+      }
+    };
+
+    const handleDrop = (e) => e.preventDefault();
+
+    const handleDragstart = (e) => {
+      e.dataTransfer.setData("text/plain", "");
+      requestAnimationFrame(() => e.target.classList.add("dragging"));
+    };
+
+    const handleDragend = (e) => e.target.classList.remove("dragging");
+
+    const handleDelete = (e) => {
+      currentTask = e.target.closest(".task");
+      modal.querySelector(".preview").innerText = currentTask.innerText.slice(0, 100);
+      modal.showModal();
+    };
+
+    const handleEdit = (e) => {
+      const task = e.target.closest(".task");
+      const input = createTaskInput(task.querySelector("div").innerText.trim());
+      task.replaceWith(input);
+      input.focus();
+
+      const sel = window.getSelection();
+      sel.selectAllChildren(input);
+      sel.collapseToEnd();
+    };
+
+    const handleBlur = (e) => {
+      const text = e.target.innerText.trim() || "Untitled";
+      const task = createTask(text);
+      e.target.replaceWith(task);
+    };
+
+    const handleAdd = (e) => {
+      const tasks = e.target.closest(".column").querySelector(".tasks");
+      const input = createTaskInput();
+      tasks.appendChild(input);
+      input.focus();
+    };
+
+    const createTask = (content, priority = "low", files = []) => {
+  const task = document.createElement("div");
+  task.className = "task";
+  task.draggable = true;
+
+  const fileLinks = files.map(file => `
+    <li><a href="${file.url}" download="${file.name}" target="_blank">${file.name}</a></li>
+  `).join("");
+
+  task.innerHTML = `
+    <div>${content}</div>
+    <span class="priority ${priority}">${priority}</span>
+    ${files.length ? `<ul class="file-list">${fileLinks}</ul>` : ""}
+    <menu>
+      <button data-edit><i class="bi bi-pencil-square"></i></button>
+      <button data-delete><i class="bi bi-trash"></i></button>
+    </menu>
+  `;
+
+  task.addEventListener("dragstart", handleDragstart);
+  task.addEventListener("dragend", handleDragend);
+  return task;
+};
+
+const createTaskInput = (text = "", priority = "low") => {
+  const container = document.createElement("div");
+  container.className = "task-input";
+  container.contentEditable = false;
+
+  const input = document.createElement("div");
+  input.contentEditable = true;
+  input.dataset.placeholder = "Task name";
+  input.innerText = text;
+  input.style.marginBottom = "8px";
+
+  const select = document.createElement("select");
+  select.innerHTML = `
+    <option value="low">Low Priority</option>
+    <option value="medium">Medium Priority</option>
+    <option value="high">High Priority</option>
+  `;
+  select.value = priority;
+  select.style.marginBottom = "8px";
+
+  const fileInput = document.createElement("input");
+  fileInput.type = "file";
+  fileInput.multiple = true;
+  fileInput.style.marginBottom = "8px";
+
+  container.appendChild(input);
+  container.appendChild(select);
+  container.appendChild(fileInput);
+
+  input.addEventListener("blur", () => {
+    const taskText = input.innerText.trim() || "Untitled";
+    const taskPriority = select.value;
+    const taskFiles = [];
+
+    if (fileInput.files.length > 0) {
+      Array.from(fileInput.files).forEach(file => {
+        const url = URL.createObjectURL(file);
+        taskFiles.push({ name: file.name, url });
+      });
+    }
+
+    const task = createTask(taskText, taskPriority, taskFiles);
+    container.replaceWith(task);
+  });
+
+  return container;
+};
+
+    const updateTaskCount = (col) => {
+      const count = col.querySelector(".tasks").children.length;
+      col.querySelector("h3").dataset.tasks = count;
+    };
+
+    const observeTasks = () => {
+      columns.forEach((col) => {
+        const observer = new MutationObserver(() => updateTaskCount(col));
+        observer.observe(col.querySelector(".tasks"), { childList: true });
+      });
+    };
+
+    
+    observeTasks();
+
+    columnsContainer.addEventListener("click", (e) => {
+      if (e.target.closest("button[data-add]")) handleAdd(e);
+      else if (e.target.closest("button[data-edit]")) handleEdit(e);
+      else if (e.target.closest("button[data-delete]")) handleDelete(e);
+    });
+
+    document.querySelectorAll(".tasks").forEach((el) => {
+      el.addEventListener("dragover", handleDragover);
+      el.addEventListener("drop", handleDrop);
+    });
+
+    modal.addEventListener("submit", () => currentTask && currentTask.remove());
+    modal.querySelector("#cancel").addEventListener("click", () => modal.close());
+    modal.addEventListener("close", () => (currentTask = null));
+
+    const sampleTasks = [
+      ["Design UI", "Plan features", "Write specs"],
+      ["Build components", "Implement drag & drop"],
+      ["Test interactions", "Fix layout issues"],
+      ["Launch MVP", "Review feedback"],
+    ];
+
+    sampleTasks.forEach((group, idx) => {
+      group.forEach((text) => {
+        columns[idx].querySelector(".tasks").appendChild(createTask(text));
+      });
+    });
+ // Filter tasks by selected column
+document.getElementById('column-filter').addEventListener('change', function() {
+  const selectedColumn = this.value;
+  const taskColumns = document.querySelectorAll('.column');
+
+  taskColumns.forEach(column => {
+  const columnTitle = column.querySelector('h3').innerText.toLowerCase().replace(/\s/g, '');
+  
+  if (selectedColumn === 'all' || columnTitle === selectedColumn) {
+    column.style.display = 'block';
+  } else {
+    column.style.display = 'none';
+  }
+});
+
+});
+document.getElementById('theme-toggle').addEventListener('click', () => {
+  document.body.classList.toggle('dark-theme');
+});
+const loginButton = document.getElementById("loginBtn");
+    
+    loginButton.addEventListener("click", function() {
+      window.location.href = "index.html";  // Link to your login page
+    });
+
+ </script>
+</body>
+</html>

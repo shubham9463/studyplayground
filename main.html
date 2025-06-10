@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container">
+      <div id="nav">
+        <div class="nav-left">
+          <div class="logo">
+           <h1> <i class="ri-graduation-cap-fill"></i>
+            <span>StudyPlayground</span></h1>
+        </div>
+        </div>
+        <div class="nav-right">
+          <button class="theme-toggle" title="Toggle Theme">🌙</button>
+        
+        </div>
+      </div>
+      
+
+        <div id="body">
+            <div id="section">
+              <h1 id="menu_toggle"><i class="ri-graduation-cap-fill"></i></i>STUDY</h1>
+              <div id="dropdown-link">
+               <a href="#" onclick="loadCalculator()">Calculator</a>
+                <a href="#" onclick="loadRichtext()">Textarea</a>
+                <a href="#" onclick="loadTo_Do()">to_do_list</a>
+                <a href="#" onclick="loadStory()">story</a>
+                <a href="#" onclick="loadDictionary()">Dictionary</a>
+              </div>
+              <br><br><h1 id="fun_toggle"><i class="ri-gamepad-line"></i>FUN</h1>
+               <div id="fun-link">
+                  <div class="module-wrapper">
+                  <a href="#" onclick="loadMemoryGame()">Memory Game</a>
+                 <div id="wadal-wrapper">
+                  <a href="#" onclick="loadGuessWord()">wadal</a>
+                </div>
+                </div>
+                <a href="#" onclick="loadMathGame()">mathgame</a>
+                <a href="#" onclick="loadHangman()">Hangman</a>
+               
+</div>
+
+            </div>
+            <div id="main">
+                <a href="" id="shub"></a>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        function clearOldAssets() {
+      const oldScript = document.getElementById("dynamic-script");
+      if (oldScript) oldScript.remove();
+
+      const oldStyle = document.getElementById("dynamic-style");
+      if (oldStyle) oldStyle.remove();
+    }
+
+    function loadCalculator() {
+      clearOldAssets(); 
+
+      fetch("calculator.html")
+        .then(res => res.text())
+        .then(data => {
+          document.getElementById("main").innerHTML = data;
+
+          const script = document.createElement("script");
+          script.src = "calculator.js";
+          script.id = "dynamic-script";
+          document.body.appendChild(script);
+
+          const style = document.createElement("link");
+          style.rel = "stylesheet";
+          style.href = "calculator.css";
+          style.id = "dynamic-style";
+          document.head.appendChild(style);
+        })
+        .catch(err => {
+          document.getElementById("main").innerHTML = "Failed to load calculator.";
+        });
+    }
+    
+
+    function loadRichtext() {
+      clearOldAssets(); 
+
+      fetch("richtext.html")
+        .then(res => res.text())
+        .then(data => {
+          document.getElementById("main").innerHTML = data;
+
+          const script = document.createElement("script");
+          script.src = "richtext.js";
+          script.id = "dynamic-script";
+          document.body.appendChild(script);
+
+          const style = document.createElement("link");
+          style.rel = "stylesheet";
+          style.href = "richtext.css";
+          style.id = "dynamic-style";
+          document.head.appendChild(style);
+        })
+        .catch(err => {
+          document.getElementById("main").innerHTML = "Failed to load richtext.";
+        });
+    }
+
+
+    function loadTo_Do() {
+      clearOldAssets(); 
+
+      fetch("to_do.html")
+        .then(res => res.text())
+        .then(data => {
+          document.getElementById("main").innerHTML = data;
+
+          const script = document.createElement("script");
+          script.src = "to_do.js";
+          script.id = "dynamic-script";
+          document.body.appendChild(script);
+
+          const style = document.createElement("link");
+          style.rel = "stylesheet";
+          style.href = "to_do.css";
+          style.id = "dynamic-style";
+          document.head.appendChild(style);
+        })
+        .catch(err => {
+          document.getElementById("main").innerHTML = "Failed to load richtext.";
+        });
+    }
+    
+
+    function loadStory() {
+      clearOldAssets(); 
+
+      fetch("story.html")
+        .then(res => res.text())
+        .then(data => {
+          document.getElementById("main").innerHTML = data;
+
+          const script = document.createElement("script");
+          script.src = "story.js";
+          script.id = "dynamic-script";
+          document.body.appendChild(script);
+
+          const style = document.createElement("link");
+          style.rel = "stylesheet";
+          style.href = "story.css";
+          style.id = "dynamic-style";
+          document.head.appendChild(style);
+        })
+        .catch(err => {
+          document.getElementById("main").innerHTML = "Failed to load story.";
+        });
+    }
+    function loadDictionary() {
+      clearOldAssets(); 
+
+      fetch("dictionary.html")
+        .then(res => res.text())
+        .then(data => {
+          document.getElementById("main").innerHTML = data;
+
+          const script = document.createElement("script");
+          script.src = "dictionary.js";
+          script.id = "dynamic-script";
+          document.body.appendChild(script);
+
+          const style = document.createElement("link");
+          style.rel = "stylesheet";
+          style.href = "dictionary.css";
+          style.id = "dynamic-style";
+          document.head.appendChild(style);
+        })
+        .catch(err => {
+          document.getElementById("main").innerHTML = "Failed to load dictionary.";
+        });
+    }
+   
+function loadGuessWord() {
+  clearOldAssets();
+
+  fetch("wadal.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("main").innerHTML = data;
+
+      const script = document.createElement("script");
+      script.src = "wadal.js";
+      script.id = "dynamic-script";
+      document.body.appendChild(script);
+
+      const style = document.createElement("link");
+      style.rel = "stylesheet";
+      style.href = "wadal.css";
+      style.id = "dynamic-style";
+      document.head.appendChild(style);
+
+    
+      script.onload = () => {
+        if (typeof initGuessNumberGame === "function") {
+          initGuessNumberGame();
+        } else {
+          console.error("initGuessNumberGame() not defined in wadal.js");
+        }
+      };
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById("main").innerHTML = "Failed to load wadal.";
+    });
+}
+
+function loadMemoryGame() {
+  clearOldAssets();
+
+  fetch("memorygame.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("main").innerHTML = data;
+
+      const script = document.createElement("script");
+      script.src = "memorygame.js";
+      script.id = "dynamic-script";
+      document.body.appendChild(script);
+
+      const style = document.createElement("link");
+      style.rel = "stylesheet";
+      style.href = "memorygame.css";
+      style.id = "dynamic-style";
+      document.head.appendChild(style);
+
+      script.onload = () => {
+        if (typeof initMemoryGame === "function") {
+          initMemoryGame(); 
+        } else {
+          console.error("initMemoryGame() not defined in memorygame.js");
+        }
+      };
+    })
+    .catch(err => {
+      document.getElementById("main").innerHTML = "Failed to load memorygame.";
+    });
+}
+function loadHangman() {
+  clearOldAssets();
+
+  fetch("hangman.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("main").innerHTML = data;
+
+      const script = document.createElement("script");
+      script.src = "hangman.js";
+      script.id = "dynamic-script";
+      document.body.appendChild(script);
+
+      const style = document.createElement("link");
+      style.rel = "stylesheet";
+      style.href = "hangman.css";
+      style.id = "dynamic-style";
+      document.head.appendChild(style);
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById("main").innerHTML = "Failed to load Hangman.";
+    });
+}
+function loadMathGame() {
+  clearOldAssets();
+
+  fetch("mathgame.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("main").innerHTML = data;
+
+      const script = document.createElement("script");
+      script.src = "mathgame.js";
+      script.id = "dynamic-script";
+      document.body.appendChild(script);
+
+      const style = document.createElement("link");
+      style.rel = "stylesheet";
+      style.href = "mathgame.css";
+      style.id = "dynamic-style";
+      document.head.appendChild(style);
+      script.onload = () => {
+  if (typeof initMathGame === "function") {
+    initMathGame();
+  }
+};
+    })
+        .catch(err => {
+          document.getElementById("main").innerHTML = "Failed to load mathgame.";
+    });
+   
+
+}
+
+
+
+    
+    document.addEventListener("DOMContentLoaded", function () {
+  const toggle = document.getElementById("menu_toggle");
+  const dropdown = document.getElementById("dropdown-link");
+  const funToggle = document.getElementById("fun_toggle");
+  const funDropdown = document.getElementById("fun-link");
+
+  toggle.addEventListener("click", function () {
+    dropdown.classList.toggle("show");
+  });
+
+  funToggle.addEventListener("click", function () {
+    funDropdown.classList.toggle("show");
+  });
+});
+
+    
+      </script>
+
+      <script src="index.js"></script>
+</body>
+</html>

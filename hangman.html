@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hangman</title>
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="hangman.css" />
+  </head>
+  <body>
+    <div class="game-container">
+        <h2 class="title">Hangman Game</h2>
+        <p class="hint"><b>Hint:</b> <span id="clue">Loading...</span></p>
+        <p class="lives">Remaining lives: <span id="lives">0</span></p>
+        <div id="word"></div>
+        <div class="letters" id="letters"></div>
+        <p class="result" id="result"></p>
+        <button id="newGame">New Game</button>
+      </div>
+      <div class="hangman-container">
+        <div class="gallows">
+          <div class="pole"></div>
+          <div class="beam"></div>
+          <div class="rope"></div>
+          <div class="man">
+            <div class="head part"></div>
+            <div class="body part"></div>
+            <div class="left-arm part"></div>
+            <div class="right-arm part"></div>
+            <div class="left-leg part"></div>
+            <div class="right-leg part"></div>
+          </div>
+        </div>
+      
+        <div class="word" id="wordDisplay"></div>
+        <div class="letters" id="letterButtons"></div>
+        <div class="message" id="message"></div>
+      </div>
+      
+    <!-- Script -->
+    <script src="hangman.js"></script>
+  </body>
+</html>

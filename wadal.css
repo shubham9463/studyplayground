@@ -1,0 +1,187 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Roboto Mono", monospace;
+  }
+  body {
+    background-color:  #f4c531;
+  }
+  .wrapper {
+    position: absolute;
+    width: 40%;
+    max-width: 37em;
+    background-color:#3991F5;
+    padding: 7em 3em;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    border-radius: 1em;
+  }
+  .controls-container {
+    background-color:#090e61;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    top: 0;
+  }
+  #start {
+    font-size: 1.2em;
+    padding: 1em 3em;
+    background-color: #ffffff;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #letter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8em 0.4em;
+    justify-content: center;
+    margin-top: 2em;
+    color: darkslategray;
+  }
+  #letter-container button {
+    background-color: #ffffff;
+    border: 2px solid #7786f5;
+    color: #7786f5;
+    outline: none;
+    border-radius: 0.3em;
+    cursor: pointer;
+    height: 3em;
+    width: 3em;
+  }
+  #letter-container .correct {
+    background-color: #008000;
+    color: #ffffff;
+    border: 2px solid #008000;
+  }
+  #letter-container .incorrect {
+    background-color: #8a8686;
+    color: #ffffff;
+    border: 2px solid #8a8686;
+  }
+  .hint-ref {
+    margin-bottom: 1em;
+  }
+  .hint-ref span {
+    font-weight: 600;
+  }
+  #chanceCount {
+    margin: 1em 0;
+    position: absolute;
+    top: 0.62em;
+    right: 2em;
+  }
+  #word {
+    font-weight: 600;
+    margin: 1em 0 2em 0;
+  }
+  #word span {
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  .hide {
+    display: none;
+  }
+  /* Responsive design for Hangman wrapper and buttons */
+@media screen and (max-width: 1024px) {
+  .wrapper {
+    width: 70%;
+    padding: 5em 2em;
+  }
+
+  #start {
+    font-size: 1em;
+    padding: 0.8em 2em;
+  }
+
+  #letter-container button {
+    height: 2.5em;
+    width: 2.5em;
+    font-size: 0.9em;
+  }
+
+  #chanceCount {
+    font-size: 0.95em;
+  }
+
+  #word {
+    font-size: 1.1em;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    width: 90%;
+    padding: 4em 1.5em;
+    border-radius: 0.8em;
+  }
+
+  #start {
+    font-size: 0.95em;
+    padding: 0.7em 1.5em;
+  }
+
+  #letter-container {
+    gap: 0.5em 0.3em;
+  }
+
+  #letter-container button {
+    height: 2.2em;
+    width: 2.2em;
+    font-size: 0.85em;
+  }
+
+  #chanceCount {
+    font-size: 0.9em;
+    right: 1em;
+  }
+
+  #word {
+    font-size: 1em;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    width: 100%;
+    padding: 3em 1em;
+    border-radius: 0;
+    transform: none;
+    top: auto;
+    left: auto;
+    position: relative;
+  }
+
+  .controls-container {
+    padding: 2em 1em;
+  }
+
+  #start {
+    width: 100%;
+    padding: 0.8em;
+  }
+
+  #letter-container button {
+    height: 2em;
+    width: 2em;
+    font-size: 0.8em;
+  }
+
+  #chanceCount {
+    top: 0.4em;
+    right: 0.8em;
+  }
+
+  #word {
+    font-size: 0.95em;
+  }
+}

@@ -1,0 +1,233 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Roboto Mono", monospace;
+  }
+  body {
+    background-color: #f4c531;
+  }
+  .container {
+    background-color: #3991F5;
+    width: 40%;
+    max-width: 31.25em;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    padding: 5em 3em;
+    border-radius: 0.5em;
+    box-shadow: 5px solid gray;
+  }
+  .container h3 {
+    font-size: 1.2em;
+    color: #23234c;
+    text-align: center;
+    font-weight: 500;
+    line-height: 1.8em;
+  }
+  .container #submit-btn {
+    font-size: 1.2em;
+    font-weight: 500;
+    display: block;
+    margin: 0 auto;
+    background-color: #090e61;
+    border-radius: 0.3em;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #fbfbff;
+    padding: 0.6em 2em;
+  }
+  #error-msg {
+    text-align: center;
+    margin-top: 1em;
+    background-color: #ffdde0;
+    color: #d62f2f;
+    padding: 0.2em 0;
+  }
+  .container #question {
+    background-color: #eeedf1;
+    font-size: 2em;
+    font-weight: 600;
+    color: #23234c;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1.4em 0 1em 0;
+    padding: 1em 0;
+  }
+  .container input {
+    font-size: 1em;
+    font-weight: 600;
+    width: 2.35em;
+    color: #23234c;
+    text-align: center;
+    padding: 0 0.2em;
+    border: none;
+    background-color: transparent;
+    border-bottom: 0.12em solid #23234c;
+    margin: 0 0.25em;
+  }
+  .container input:focus {
+    border-color: #090e61;
+    outline: none;
+  }
+  
+  .container input[type="number"] {
+    appearance: textfield;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+  }
+  
+  .container input[type="number"]::-webkit-outer-spin-button,
+  .container input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  .controls-container {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #090e61   ;
+    height: 100%;
+    width: 100%;
+    top: 0;
+  }
+  #start-btn {
+    font-size: 1.2em;
+    font-weight: 500;
+    background-color: #ffffff;
+    color: #23234c;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 0.8em 1.8em;
+    border-radius: 0.3em;
+  }
+  #result {
+    margin-bottom: 1em;
+    font-size: 1.5em;
+    color: #23234c;
+  }
+  #result span {
+    font-weight: 600;
+  }
+  
+  .hide {
+    display: none;
+  }
+  /* Responsive design for form and layout */
+@media screen and (max-width: 1024px) {
+  .container {
+    width: 60%;
+    padding: 4em 2em;
+  }
+
+  .container h3 {
+    font-size: 1.1em;
+  }
+
+  #submit-btn {
+    font-size: 1.1em;
+    padding: 0.5em 1.5em;
+  }
+
+  .container #question {
+    font-size: 1.8em;
+  }
+
+  .container input {
+    font-size: 1.1em;
+    padding: 0 0.3em;
+  }
+
+  #result {
+    font-size: 1.3em;
+  }
+
+  #start-btn {
+    font-size: 1.1em;
+    padding: 0.7em 1.5em;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    width: 80%;
+    padding: 3.5em 1.5em;
+    border-radius: 0.4em;
+  }
+
+  .container h3 {
+    font-size: 1em;
+  }
+
+  #submit-btn {
+    font-size: 1em;
+    padding: 0.5em 1.2em;
+  }
+
+  .container #question {
+    font-size: 1.5em;
+    padding: 0.8em 0;
+  }
+
+  .container input {
+    font-size: 1em;
+    padding: 0 0.3em;
+  }
+
+  #result {
+    font-size: 1.2em;
+  }
+
+  #start-btn {
+    font-size: 1em;
+    padding: 0.7em 1.4em;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    width: 100%;
+    padding: 3em 1em;
+    border-radius: 0;
+    transform: none;
+    top: auto;
+    left: auto;
+    position: relative;
+  }
+
+  .container h3 {
+    font-size: 0.9em;
+  }
+
+  #submit-btn {
+    font-size: 0.9em;
+    padding: 0.6em 1.5em;
+  }
+
+  .container #question {
+    font-size: 1.2em;
+    padding: 0.6em 0;
+  }
+
+  .container input {
+    font-size: 0.95em;
+    padding: 0 0.2em;
+  }
+
+  #result {
+    font-size: 1.1em;
+  }
+
+  #start-btn {
+    font-size: 0.95em;
+    padding: 0.6em 1.3em;
+  }
+}
