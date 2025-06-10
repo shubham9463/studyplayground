@@ -61,7 +61,7 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     message.textContent = "Login successful!";
     message.style.color = "green";
-    window.location.href = "../main.html";
+    window.location.href = "main.html";
     toggleLogout(true);
   } catch (error) {
     message.textContent = error.message;
